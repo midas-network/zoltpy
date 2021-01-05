@@ -18,7 +18,7 @@ from zoltpy.quantile_io import json_io_dict_from_quantile_csv_file, summarized_e
 # columns in addition to REQUIRED_COLUMNS
 #
 
-COVID_ADDL_REQ_COLS = ['forecast_id', 'forecast_date', 'target_end_date']
+COVID_ADDL_REQ_COLS = ['model_projection_date', 'forecast_id', 'forecast_date', 'target_end_date']
 
 
 #
