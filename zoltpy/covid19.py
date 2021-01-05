@@ -18,7 +18,7 @@ from zoltpy.quantile_io import json_io_dict_from_quantile_csv_file, summarized_e
 # columns in addition to REQUIRED_COLUMNS
 #
 
-COVID_ADDL_REQ_COLS = ['forecast_id', 'forecast_date', 'target_end_date']
+COVID_ADDL_REQ_COLS = ['scenario_id', 'model_projection_date', 'target_end_date']
 
 
 #
@@ -148,13 +148,13 @@ def covid19_row_validator(column_index_dict, row, is_valid_target):
             pass  # ignore here - it will be caught by `json_io_dict_from_quantile_csv_file()`
 
     # validate forecast_date and target_end_date date formats
-    forecast_date = row[column_index_dict['forecast_date']]
+    forecast_date = row[column_index_dict['model_projection_date']]
     target_end_date = row[column_index_dict['target_end_date']]
     forecast_date = _parse_date(forecast_date)  # None if invalid format
     target_end_date = _parse_date(target_end_date)  # ""
     if not forecast_date or not target_end_date:
         error_messages.append((MESSAGE_FORECAST_CHECKS,
-                               f"invalid forecast_date or target_end_date format. forecast_date={forecast_date!r}. "
+                               f"invalid model_projection_date or target_end_date format. model_projection_date={forecast_date!r}. "
                                f"target_end_date={target_end_date}. row={row}"))
         return error_messages  # terminate - remaining validation depends on valid dates
 
@@ -178,8 +178,8 @@ def covid19_row_validator(column_index_dict, row, is_valid_target):
         if (target_end_date - forecast_date).days != step_ahead_increment:
             error_messages.append((MESSAGE_FORECAST_CHECKS,
                                    f"invalid target_end_date: was not {step_ahead_increment} day(s) after "
-                                   f"forecast_date. diff={(target_end_date - forecast_date).days}, "
-                                   f"forecast_date={forecast_date}, target_end_date={target_end_date}. row={row}"))
+                                   f"model_projection_date. diff={(target_end_date - forecast_date).days}, "
+                                   f"model_projection_date={forecast_date}, target_end_date={target_end_date}. row={row}"))
     else:  # 'wk ahead' in target
         # NB: we convert `weekdays()` (Monday is 0 and Sunday is 6) to a Sunday-based numbering to get the math to work:
         weekday_to_sun_based = {i: i + 2 if i != 6 else 1 for i in range(7)}  # Sun=1, Mon=2, ..., Sat=7
@@ -202,7 +202,7 @@ def covid19_row_validator(column_index_dict, row, is_valid_target):
             exp_target_end_date = forecast_date + delta_days
         if target_end_date != exp_target_end_date:
             error_messages.append((MESSAGE_DATE_ALIGNMENT,
-                                   f"target_end_date was not the expected Saturday. forecast_date={forecast_date}, "
+                                   f"target_end_date was not the expected Saturday. model_projection_date={forecast_date}, "
                                    f"target_end_date={target_end_date}. exp_target_end_date={exp_target_end_date}, "
                                    f"row={row}"))
 
