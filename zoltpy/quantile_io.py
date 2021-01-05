@@ -1,6 +1,8 @@
 import csv
 import datetime
 import math
+import re
+from zoltpy.covid19 import COVID_ADDL_REQ_COLS
 from collections import defaultdict
 from itertools import groupby
 
@@ -15,6 +17,10 @@ NAMED_DISTRIBUTION_CLASS = 'named'
 POINT_PREDICTION_CLASS = 'point'
 SAMPLE_PREDICTION_CLASS = 'sample'
 QUANTILE_PREDICTION_CLASS = 'quantile'
+
+SCENARIO_ID_PATTERN = "[ABCD]-20\\d{2}-\\d{2}-\\d{2}"
+SCENARIO_NAME_PATTERN = "optimistic|moderate|fatigue|counterfactual"
+
 
 # quantile csv I/O
 REQUIRED_COLUMNS = ('location', 'target', 'type', 'quantile', 'value')
@@ -178,6 +184,17 @@ def _validated_rows_for_quantile_csv(csv_fp, valid_target_names, row_validator, 
             return [], error_messages  # terminate processing b/c column_index_dict requires correct number of rows
 
         location, target, row_type, quantile, value = [row[column_index_dict[column]] for column in REQUIRED_COLUMNS]
+        # COVID_ADDL_REQ_COLS = ['scenario_id', 'scenario_name' 'model_projection_date', 'target_end_date']
+        scenario_id, scenario_name, model_projection_date, target_end_date = [row[column_index_dict[column]] for column in COVID_ADDL_REQ_COLS]
+
+        scenario_id_valid = re.match(SCENARIO_ID_PATTERN, scenario_id)
+        if not scenario_id_valid:
+            error_messages.append((MESSAGE_FORECAST_CHECKS, f"scenario_id {scenario_id} does not match regular expression {SCENARIO_ID_PATTERN}"))
+
+        scenario_name_valid = re.match(SCENARIO_NAME_PATTERN, scenario_name)
+        if not scenario_name_valid:
+            error_messages.append((MESSAGE_FORECAST_CHECKS, f"scenario_name {scenario_name} does not match regular expression {SCENARIO_NAME_PATTERN}"))
+
 
         # validate target
         is_valid_target = target in valid_target_names
