@@ -6,7 +6,7 @@ from pathlib import Path
 import click
 
 from zoltpy.quantile_io import json_io_dict_from_quantile_csv_file, summarized_error_messages, MESSAGE_FORECAST_CHECKS, \
-    MESSAGE_DATE_ALIGNMENT
+    MESSAGE_DATE_ALIGNMENT, COVID_ADDL_REQ_COLS
 
 
 #
@@ -18,7 +18,7 @@ from zoltpy.quantile_io import json_io_dict_from_quantile_csv_file, summarized_e
 # columns in addition to REQUIRED_COLUMNS
 #
 
-COVID_ADDL_REQ_COLS = ['scenario_id', 'scenario_name' 'model_projection_date', 'target_end_date']
+
 
 
 #

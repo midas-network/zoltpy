@@ -2,7 +2,7 @@ import csv
 import datetime
 import math
 import re
-from zoltpy.covid19 import COVID_ADDL_REQ_COLS
+
 from collections import defaultdict
 from itertools import groupby
 
@@ -20,6 +20,8 @@ QUANTILE_PREDICTION_CLASS = 'quantile'
 
 SCENARIO_ID_PATTERN = "[ABCD]-20\\d{2}-\\d{2}-\\d{2}"
 SCENARIO_NAME_PATTERN = "optimistic|moderate|fatigue|counterfactual"
+
+COVID_ADDL_REQ_COLS = ['scenario_id', 'scenario_name' 'model_projection_date', 'target_end_date']
 
 
 # quantile csv I/O
