@@ -49,12 +49,12 @@ FIPS_CODES_STATE, FIPS_CODES_COUNTY = load_fips_codes(os.path.join(os.path.dirna
 #
 
 COVID_TARGETS_NON_CASE = [f"{_} day ahead inc hosp" for _ in range(131)] + \
-                         [f"{_} wk ahead inc death" for _ in range(1, 26)] + \
-                         [f"{_} wk ahead cum death" for _ in range(1, 26)] + \
-                         [f"{_} wk ahead inc case" for _ in range(1, 26)] + \
-                         [f"{_} wk ahead cum inc case" for _ in range(1, 26)] + \
-                         [f"{_} wk ahead inc hosp" for _ in range(1, 26)] + \
-                         [f"{_} wk ahead cum inc hosp" for _ in range(13, 26)]
+                         [f"{_} wk ahead inc death" for _ in range(1, 27)] + \
+                         [f"{_} wk ahead cum death" for _ in range(1, 27)] + \
+                         [f"{_} wk ahead inc case" for _ in range(1, 27)] + \
+                         [f"{_} wk ahead cum inc case" for _ in range(1, 27)] + \
+                         [f"{_} wk ahead inc hosp" for _ in range(1, 27)] + \
+                         [f"{_} wk ahead cum inc hosp" for _ in range(13, 27)]
 COVID_TARGETS_CASE = [f"{_} wk ahead inc case" for _ in range(1, 9)]
 COVID_TARGETS = COVID_TARGETS_NON_CASE + COVID_TARGETS_CASE
 
